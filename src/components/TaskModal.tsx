@@ -10,6 +10,7 @@ interface TaskModalProps {
   onSave: (task: Omit<Task, 'id' | 'position'>) => void;
   onDelete?: (taskId: string) => void;
   initialTask?: Task;
+  initialQuadrant?: 1 | 2 | 3 | 4;
 }
 
 export const TaskModal: React.FC<TaskModalProps> = ({
@@ -18,6 +19,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   onSave,
   onDelete,
   initialTask,
+  initialQuadrant,
 }) => {
   const [title, setTitle] = useState('');
   const [quadrant, setQuadrant] = useState<1 | 2 | 3 | 4>(1);
@@ -34,10 +36,10 @@ export const TaskModal: React.FC<TaskModalProps> = ({
       editor?.commands.setContent(initialTask.description);
     } else if (isOpen) {
       setTitle('');
-      setQuadrant(1);
+      setQuadrant(initialQuadrant || 1);
       editor?.commands.setContent('');
     }
-  }, [isOpen, initialTask, editor]);
+  }, [isOpen, initialTask, initialQuadrant, editor]);
 
   const handleSave = () => {
     if (!title.trim()) return;
@@ -62,7 +64,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center text-gray-700 justify-center p-4">
       <div className="bg-white rounded-lg p-6 w-full max-w-2xl">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">

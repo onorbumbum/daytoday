@@ -4,7 +4,7 @@ import { TaskProvider } from './context/TaskContext';
 function App() {
   return (
     <TaskProvider>
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gradient-to-tr from-slate-700 to-fuchsia-700 text-white">
         <QuadrantGrid />
       </div>
     </TaskProvider>

@@ -12,6 +12,21 @@ interface QuadrantProps {
   onQuadrantDoubleClick: (quadrantId: 1 | 2 | 3 | 4) => void;
 }
 
+const getQuadrantColor = (id: 1 | 2 | 3 | 4) => {
+  switch (id) {
+    case 1: // Urgent & Important
+      return 'bg-gradient-to-tr from-red-300 to-red-600';
+    case 2: // Important & Not Urgent
+      return 'bg-gradient-to-tr from-yellow-300 to-yellow-600';
+    case 3: // Urgent & Not Important
+      return 'bg-gradient-to-tr from-orange-300 to-orange-600';
+    case 4: // Not Urgent & Not Important
+      return 'bg-gradient-to-tr from-slate-300 to-slate-600';
+    default:
+      return '';
+  }
+};
+
 export const Quadrant: React.FC<QuadrantProps> = ({
   id,
   title,
@@ -28,23 +43,24 @@ export const Quadrant: React.FC<QuadrantProps> = ({
     return a.position - b.position;
   });
 
-  const handleDoubleClick = (e: React.MouseEvent) => {
-    // Only trigger if clicking directly on the quadrant, not on tasks
-    if ((e.target as HTMLElement).classList.contains('quadrant-container')) {
-      onQuadrantDoubleClick(id);
-    }
-  };
-
   return (
-    <div className="quadrant">
-      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+    <div className={`quadrant p-4 rounded-lg shadow ${getQuadrantColor(id)}`}>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl text-center w-full font-semibold text-white">{title}</h2>
+        <button
+          onClick={() => onQuadrantDoubleClick(id)}
+          className="w-6 h-6 flex items-center justify-center rounded-full bg-teal-500 hover:bg-teal-600 text-white pb-1 text-lg transition-colors"
+          title={`Add task to ${title}`}
+        >
+          +
+        </button>
+      </div>
       <Droppable droppableId={String(id)}>
         {(provided) => (
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
             className="quadrant-container min-h-[200px]"
-            onDoubleClick={handleDoubleClick}
           >
             {sortedTasks.map((task, index) => (
               <TaskComponent

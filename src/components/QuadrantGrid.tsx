@@ -16,7 +16,7 @@ type QuadrantId = keyof typeof QUADRANT_TITLES;
 
 export const QuadrantGrid: React.FC = () => {
   const { tasks, addTask, updateTask, deleteTask, reorderTasks, moveTask } = useTaskContext();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
   const [selectedTask, setSelectedTask] = useState<Task | undefined>();
   const [selectedQuadrant, setSelectedQuadrant] = useState<QuadrantId>(1);
 
@@ -77,14 +77,14 @@ export const QuadrantGrid: React.FC = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Eisenhower Matrix</h1>
+        <h1 className="text-3xl font-bold">Day Today</h1>
         <button
           onClick={() => {
             setSelectedQuadrant(1);
             setSelectedTask(undefined);
             setIsModalOpen(true);
           }}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="px-4 py-2 bg-gradient-to-tr from-teal-400  to-teal-600 transition-all duration-500 shadow-xl text-white rounded hover:bg-teal-600"
         >
           Add Task
         </button>
@@ -115,6 +115,7 @@ export const QuadrantGrid: React.FC = () => {
         onSave={handleSaveTask}
         onDelete={deleteTask}
         initialTask={selectedTask}
+        initialQuadrant={selectedQuadrant}
       />
     </div>
   );

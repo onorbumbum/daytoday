@@ -4,11 +4,11 @@
 
 @layer components {
   .quadrant {
-    @apply bg-white rounded-lg shadow-lg p-4 min-h-[250px];
+    @apply bg-white rounded-lg shadow-xl p-4 min-h-[250px];
   }
 
   .task-item {
-    @apply bg-gray-50 rounded p-3 mb-2 cursor-pointer hover:bg-gray-100 transition-colors;
+    @apply bg-white rounded p-3 mb-2 cursor-pointer hover:bg-gray-50 shadow-lg transition-colors text-gray-700;
   }
 
   .task-item.completed {
