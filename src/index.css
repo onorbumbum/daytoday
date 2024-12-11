@@ -15,3 +15,10 @@
     @apply line-through text-gray-300;
   }
 }
+body{
+  font-family: "Ubuntu Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+
+}
