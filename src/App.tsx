@@ -6,7 +6,7 @@ function App() {
     <TaskProvider>
       <div className="min-h-screen bg-gradient-to-tr from-slate-700 to-fuchsia-700 text-white">
         <QuadrantGrid />
-        <div className="w-full flex items-center justify-center text-gray-300 text-sm pb-2">courtesy of <a href="https://www.uzunu.com" class="ml-1">uzunu</a></div>
+        <div className="w-full flex items-center justify-center text-gray-300 text-sm pb-2">courtesy of <a href="https://www.uzunu.com" className="ml-1">uzunu</a></div>
 
       </div>
     </TaskProvider>
