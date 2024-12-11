@@ -4,6 +4,28 @@ import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import { Task } from '../types';
 
+const QUADRANT_TITLES = {
+  1: 'Urgent & Important',
+  2: 'Important & Not Urgent',
+  3: 'Urgent & Not Important',
+  4: 'Not Urgent & Not Important',
+} as const;
+
+const getQuadrantColor = (id: 1 | 2 | 3 | 4) => {
+  switch (id) {
+    case 1: // Urgent & Important
+      return 'bg-gradient-to-tr from-red-300 to-red-600';
+    case 2: // Important & Not Urgent
+      return 'bg-gradient-to-tr from-yellow-300 to-yellow-600';
+    case 3: // Urgent & Not Important
+      return 'bg-gradient-to-tr from-orange-300 to-orange-600';
+    case 4: // Not Urgent & Not Important
+      return 'bg-gradient-to-tr from-slate-300 to-slate-600';
+    default:
+      return '';
+  }
+};
+
 interface TaskModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -39,16 +61,24 @@ export const TaskModal: React.FC<TaskModalProps> = ({
       setTitle(initialTask.title);
       setQuadrant(initialTask.quadrant);
       editor?.commands.setContent(initialTask.description);
-    } else if (isOpen) {
+      console.log('Setting initial task quadrant:', initialTask.quadrant);
+    } else if (isOpen && initialQuadrant) {
       setTitle('');
-      setQuadrant(initialQuadrant || 1);
+      setQuadrant(initialQuadrant);
       editor?.commands.setContent('');
+      console.log('Setting initial quadrant:', initialQuadrant);
     }
   }, [isOpen, initialTask, initialQuadrant, editor]);
+
+  const handleQuadrantSelect = (q: 1 | 2 | 3 | 4) => {
+    console.log('Selecting quadrant:', q);
+    setQuadrant(q);
+  };
 
   const handleSave = () => {
     if (!title.trim()) return;
 
+    console.log('Saving task with quadrant:', quadrant);
     onSave({
       title: title.trim(),
       description: editor?.getHTML() || '',
@@ -86,6 +116,28 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           )}
         </div>
         
+       
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Quadrant</label>
+          <div className="grid grid-cols-2 gap-3">
+            {([1, 2, 3, 4] as const).map((q) => (
+              <button
+                key={q}
+                type="button"
+                onClick={() => handleQuadrantSelect(q)}
+                className={`p-3 rounded-lg text-sm transition-all duration-200 text-white shadow-md ${
+                  getQuadrantColor(q)
+                } ${
+                  quadrant === q
+                    ? 'ring-4 ring-white ring-offset-4 scale-105 opacity-100'
+                    : 'opacity-60 hover:opacity-80'
+                }`}
+              >
+                {QUADRANT_TITLES[q]}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">Title</label>
           <input
@@ -96,20 +148,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             placeholder="Task title"
             autoFocus
           />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Quadrant</label>
-          <select
-            value={quadrant}
-            onChange={(e) => setQuadrant(Number(e.target.value) as 1 | 2 | 3 | 4)}
-            className="w-full px-3 py-2 border rounded-md"
-          >
-            <option value={1}>Urgent & Important</option>
-            <option value={2}>Important & Not Urgent</option>
-            <option value={3}>Urgent & Not Important</option>
-            <option value={4}>Not Urgent & Not Important</option>
-          </select>
         </div>
 
         <div className="mb-4">

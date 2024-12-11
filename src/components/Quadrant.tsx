@@ -44,34 +44,32 @@ export const Quadrant: React.FC<QuadrantProps> = ({
   });
 
   return (
-    <div className={`quadrant p-4 rounded-lg shadow ${getQuadrantColor(id)}`}>
-      <div className="flex justify-between items-center mb-4">
+    <div 
+      className={`quadrant p-4 rounded-lg shadow ${getQuadrantColor(id)} cursor-pointer h-[400px] flex flex-col`}
+      onDoubleClick={() => onQuadrantDoubleClick(id)}
+    >
+      <div className="flex justify-between items-center mb-4 flex-shrink-0">
         <h2 className="text-2xl text-center w-full font-semibold text-white">{title}</h2>
-        <button
-          onClick={() => onQuadrantDoubleClick(id)}
-          className="w-6 h-6 flex items-center justify-center rounded-full bg-teal-500 hover:bg-teal-600 text-white pb-1 text-lg transition-colors"
-          title={`Add task to ${title}`}
-        >
-          +
-        </button>
       </div>
       <Droppable droppableId={String(id)}>
         {(provided) => (
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className="quadrant-container min-h-[200px]"
+            className="quadrant-container flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white scrollbar-track-transparent scrollbar-thumb-rounded-full hover:scrollbar-thumb-opacity-100 scrollbar-thumb-opacity-50"
           >
-            {sortedTasks.map((task, index) => (
-              <TaskComponent
-                key={task.id}
-                task={task}
-                index={index}
-                onTaskClick={onTaskClick}
-                onTaskComplete={onTaskComplete}
-              />
-            ))}
-            {provided.placeholder}
+            <div className="space-y-2">
+              {sortedTasks.map((task, index) => (
+                <TaskComponent
+                  key={task.id}
+                  task={task}
+                  index={index}
+                  onTaskClick={onTaskClick}
+                  onTaskComplete={onTaskComplete}
+                />
+              ))}
+              {provided.placeholder}
+            </div>
           </div>
         )}
       </Droppable>

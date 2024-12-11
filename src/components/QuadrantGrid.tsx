@@ -61,7 +61,7 @@ export const QuadrantGrid: React.FC = () => {
     if (selectedTask) {
       updateTask({ ...selectedTask, ...taskData });
     } else {
-      addTask({ ...taskData, quadrant: selectedQuadrant });
+      addTask(taskData);
     }
     setIsModalOpen(false);
     setSelectedTask(undefined);
@@ -75,35 +75,45 @@ export const QuadrantGrid: React.FC = () => {
   ];
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-extralight">Day Today</h1>
-        <button
-          onClick={() => {
-            setSelectedQuadrant(1);
-            setSelectedTask(undefined);
-            setIsModalOpen(true);
-          }}
-          className="px-4 py-2 bg-gradient-to-tr from-teal-400  to-teal-600 transition-all duration-500 shadow-xl text-white rounded hover:bg-teal-600"
-        >
-          Add Task
-        </button>
+    <div className="p-6 min-h-screen flex flex-col">
+      <div className="mb-6 flex-shrink-0">
+        <h1 className="text-3xl font-extralight text-center">Day Today</h1>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
-        <DragDropContext onDragEnd={handleDragEnd}>
-          {quadrants.map(([id, title]) => (
-            <Quadrant
-              key={id}
-              id={id}
-              title={title}
-              tasks={tasks.filter((task) => task.quadrant === id)}
-              onTaskClick={handleTaskClick}
-              onTaskComplete={handleTaskComplete}
-              onQuadrantDoubleClick={handleQuadrantDoubleClick}
-            />
-          ))}
-        </DragDropContext>
+      <div className="relative flex-1 min-h-[800px]">
+        {/* Grid container with minimum height */}
+        <div className="grid grid-cols-2 gap-6 h-full">
+          <DragDropContext onDragEnd={handleDragEnd}>
+            {quadrants.map(([id, title]) => (
+              <Quadrant
+                key={id}
+                id={id}
+                title={title}
+                tasks={tasks.filter((task) => task.quadrant === id)}
+                onTaskClick={handleTaskClick}
+                onTaskComplete={handleTaskComplete}
+                onQuadrantDoubleClick={handleQuadrantDoubleClick}
+              />
+            ))}
+          </DragDropContext>
+        </div>
+        
+        {/* Centered Add Task Button */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <button
+            onClick={() => {
+              setSelectedQuadrant(1);
+              setSelectedTask(undefined);
+              setIsModalOpen(true);
+            }}
+            className="w-24 h-24 rounded-full bg-gradient-to-tr from-teal-400 to-teal-600 text-white shadow-2xl flex items-center justify-center transform transition-all duration-300 font-bold hover:scale-110 hover:shadow-3xl z-50"
+          >
+            <div className="text-center">
+              <span className="text-5xl block mb-1">+</span>
+{/*               <span className="text-lg font-vbold">Add Task</span>
+ */}            </div>
+          </button>
+        </div>
       </div>
 
       <TaskModal
