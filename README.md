@@ -1,6 +1,6 @@
-# Eisenhower Matrix Task Manager
+# Day Today
 
-A modern, interactive task management application based on the Eisenhower Matrix principle, helping you prioritize tasks based on their urgency and importance.
+A simple Eisenhower Matrix task manager that helps you prioritize tasks based on their urgency and importance.
 
 ## What is the Eisenhower Matrix?
 
@@ -17,21 +17,24 @@ The Eisenhower Matrix, also known as the Urgent-Important Matrix, is a decision-
 - **Drag & Drop**: Easily move tasks between quadrants
 - **Rich Text Editing**: Format task descriptions with bold, italic, underline, and lists
 - **Task Management**:
-  - Add new tasks with the + button in each quadrant
+  - Add new tasks with the centered add button
+  - Double-click any quadrant to add a task directly to it
   - Edit existing tasks
   - Mark tasks as complete
   - Delete tasks
 - **Persistent Storage**: Tasks are automatically saved to local storage
 - **Responsive Design**: Works on both desktop and mobile devices
+- **Fixed-Height Quadrants**: Scrollable quadrants with custom scrollbars for better organization
 
 ## How to Use
 
 1. **Adding Tasks**:
 
-   - Click the + button in the top-right corner of any quadrant
+   - Click the large + button in the center of the matrix
+   - Select the appropriate quadrant in the task modal
    - Enter the task title and description
-   - The quadrant is pre-selected based on where you clicked
    - Click Save to create the task
+   - Alternatively, double-click any quadrant to add a task directly to it
 
 2. **Managing Tasks**:
 
@@ -47,6 +50,7 @@ The Eisenhower Matrix, also known as the Urgent-Important Matrix, is a decision-
      - Orange: Urgent & Not Important
      - Gray: Not Urgent & Not Important
    - Completed tasks automatically move to the bottom of their quadrant
+   - Quadrants scroll independently when tasks overflow
 
 ## Installation
 
@@ -94,3 +98,7 @@ This project uses:
 ## License
 
 MIT License - feel free to use this project for personal or commercial purposes.
+
+## Attribution
+
+Courtesy of [uzunu](https://www.uzunu.com)
