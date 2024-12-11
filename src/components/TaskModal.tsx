@@ -27,6 +27,11 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     content: '',
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm h-full outline-none',
+      },
+    },
   });
 
   useEffect(() => {
@@ -109,7 +114,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
 
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">Description</label>
-          <div className="border rounded-md p-2">
+          <div className="border rounded-md p-2 min-h-[200px] flex flex-col h-[200px]">
             <div className="border-b pb-2 mb-2">
               <button
                 type="button"
@@ -157,7 +162,9 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                 1.
               </button>
             </div>
-            <EditorContent editor={editor} className="min-h-[150px]" />
+            <div className="flex-1 h-full">
+              <EditorContent editor={editor} className="h-full [&_.ProseMirror]:h-full [&_.ProseMirror]:overflow-auto" />
+            </div>
           </div>
         </div>
 
