@@ -57,7 +57,6 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const moveTask = (
     taskId: string,
-    sourceQuadrant: 1 | 2 | 3 | 4,
     destinationQuadrant: 1 | 2 | 3 | 4,
     destinationIndex: number
   ) => {
