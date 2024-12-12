@@ -43,40 +43,60 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const reorderTasks = (quadrant: 1 | 2 | 3 | 4, startIndex: number, endIndex: number) => {
-    const quadrantTasks = tasks.filter(t => t.quadrant === quadrant);
-    const [removed] = quadrantTasks.splice(startIndex, 1);
-    quadrantTasks.splice(endIndex, 0, removed);
+    setTasks(prev => {
+      const newTasks = [...prev];
+      const quadrantTasks = newTasks.filter(t => t.quadrant === quadrant);
+      const [removed] = quadrantTasks.splice(startIndex, 1);
+      quadrantTasks.splice(endIndex, 0, removed);
 
-    const updatedTasks = tasks.filter(t => t.quadrant !== quadrant);
-    quadrantTasks.forEach((task, index) => {
-      task.position = index;
+      // Update positions for all tasks in the quadrant
+      quadrantTasks.forEach((task, index) => {
+        task.position = index;
+      });
+
+      // Replace old tasks with reordered ones
+      return [
+        ...newTasks.filter(t => t.quadrant !== quadrant),
+        ...quadrantTasks
+      ];
     });
-
-    setTasks([...updatedTasks, ...quadrantTasks]);
   };
 
   const moveTask = (
     taskId: string,
+    sourceQuadrant: 1 | 2 | 3 | 4,
     destinationQuadrant: 1 | 2 | 3 | 4,
     destinationIndex: number
   ) => {
-    const taskToMove = tasks.find(t => t.id === taskId);
-    if (!taskToMove) return;
+    setTasks(prev => {
+      const newTasks = [...prev];
+      const taskToMove = newTasks.find(t => t.id === taskId);
+      if (!taskToMove) return prev;
 
-    const updatedTasks = tasks.filter(t => t.id !== taskId);
-    const destinationTasks = tasks.filter(t => t.quadrant === destinationQuadrant);
-    
-    taskToMove.quadrant = destinationQuadrant;
-    taskToMove.position = destinationIndex;
+      // Remove task from its current position
+      const remainingTasks = newTasks.filter(t => t.id !== taskId);
+      
+      // Update task's quadrant and position
+      taskToMove.quadrant = destinationQuadrant;
+      taskToMove.position = destinationIndex;
 
-    // Update positions for tasks after the insertion point
-    destinationTasks.forEach(task => {
-      if (task.position >= destinationIndex) {
-        task.position += 1;
-      }
+      // Get tasks in destination quadrant (excluding the moved task)
+      const destinationTasks = remainingTasks.filter(t => t.quadrant === destinationQuadrant);
+
+      // Insert task at new position
+      destinationTasks.splice(destinationIndex, 0, taskToMove);
+
+      // Update positions for all tasks in destination quadrant
+      destinationTasks.forEach((task, index) => {
+        task.position = index;
+      });
+
+      // Combine all tasks
+      return [
+        ...remainingTasks.filter(t => t.quadrant !== destinationQuadrant),
+        ...destinationTasks
+      ];
     });
-
-    setTasks([...updatedTasks, taskToMove]);
   };
 
   const value: TaskContextType = {

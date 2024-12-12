@@ -31,7 +31,7 @@ export const QuadrantGrid: React.FC = () => {
 
     // Reordering within the same quadrant
     if (sourceQuadrant === destinationQuadrant) {
-      reorderTasks(sourceQuadrant, source.index, destination.index);
+      reorderTasks(destinationQuadrant, source.index, destination.index);
     }
     // Moving between quadrants
     else {
@@ -110,8 +110,7 @@ export const QuadrantGrid: React.FC = () => {
           >
             <div className="text-center">
               <span className="text-5xl block mb-1">+</span>
-{/*               <span className="text-lg font-vbold">Add Task</span>
- */}            </div>
+            </div>
           </button>
         </div>
       </div>
