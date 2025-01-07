@@ -21,7 +21,6 @@ export interface TaskContextType {
   reorderTasks: (quadrant: 1 | 2 | 3 | 4, startIndex: number, endIndex: number) => void;
   moveTask: (
     taskId: string,
-    sourceQuadrant: 1 | 2 | 3 | 4,
     destinationQuadrant: 1 | 2 | 3 | 4,
     destinationIndex: number
   ) => void;

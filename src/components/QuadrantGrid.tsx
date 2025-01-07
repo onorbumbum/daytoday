@@ -35,7 +35,7 @@ export const QuadrantGrid: React.FC = () => {
     }
     // Moving between quadrants
     else {
-      moveTask(draggableId, sourceQuadrant, destinationQuadrant, destination.index);
+      moveTask(draggableId, destinationQuadrant, destination.index);
     }
   };
 
